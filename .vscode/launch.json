@@ -1,0 +1,15 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker Attach",
+      "type": "node",
+      "request": "attach",
+      "address": "localhost",
+      "localRoot": "${workspaceFolder}/App/api-node",
+      "remoteRoot": "/usr/src/app/src",
+      "port": 9229,
+      "restart": true,
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+services:
+  postgres-db:
+    image: postgres:18-alpine
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: postgresuser
+      POSTGRES_PASSWORD: safepassword
+      POSTGRES_DB: appdb
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgresuser -d appdb"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - my-network
+  api-node:
+    build:
+      context: ./api-node
+      dockerfile: Dockerfile
+      target: dev
+    init: true
+    image: api-node
+    container_name: api-node
+    environment:
+      DATABASE_URL: postgres://postgresuser:safepassword@postgres-db:5432/appdb
+    ports:
+      - "3000:3000"
+      - "9229:9229"
+    volumes:
+      - ./api-node:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    networks:
+      - my-network
+
+  client-vite:
+    build:
+      context: ./client-react
+      dockerfile: Dockerfile.vite
+    init: true  
+    image: client-react-vite
+    container_name: client-react-vite
+    ports:
+      - "5173:5173"
+    volumes:
+        - ./client-react:/usr/src/app
+        - /usr/src/app/node_modules
+    restart: unless-stopped
+    networks:
+      - my-network
+  client-nginx:
+    build:
+      context: ./client-react
+      dockerfile: Dockerfile.nginx
+    init: true
+    image: client-react-nginx
+    container_name: client-react-nginx
+    ports:
+      - "80:8080"
+    restart: unless-stopped
+    networks:
+      - my-network
+volumes:
+  pgdata:
+networks:
+  my-network:
+    driver: bridge

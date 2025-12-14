@@ -1,0 +1,20 @@
+FROM node:22.20-slim
+
+# Specify working directory other than /
+WORKDIR /usr/src/app
+
+# Copy only files required to install
+# dependencies (better layer caching)
+COPY package*.json ./
+
+# Use cache mount to speed up install of existing dependencies
+RUN --mount=type=cache,target=/usr/src/app/.npm \
+  npm set cache /usr/src/app/.npm && \
+  npm install
+
+COPY . .
+
+#OPTIONAL
+EXPOSE 5173
+
+CMD ["npm", "run", "dev"]
