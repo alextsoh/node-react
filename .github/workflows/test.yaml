@@ -1,4 +1,4 @@
-name: Test Application
+name: Test Workflow
 
 on:
   workflow_dispatch:
@@ -6,12 +6,10 @@ on:
     branches:
       - dev
 
-defaults:
-  run:
-    working-directory: App/api-node
 
 jobs:
-  test:
+  # Lint and test API
+  api-test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -22,13 +20,42 @@ jobs:
         with:
           node-version-file: 'App/api-node/package.json'
           cache: 'npm'
-          cache-dependency-path: 'App/api-node/package-lock.json' 
+          cache-dependency-path: 'App/api-node/package-lock.json'
       
       - name: Install dependencies
+        working-directory: App/api-node
         run: npm ci
       
       - name: Lint code
+        working-directory: App/api-node
         run: npm run lint
       
       - name: Run tests
+        working-directory: App/api-node
         run: npm test
+
+  # Lint and build React
+  client-test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: 'App/client-react/package.json'
+          cache: 'npm'
+          cache-dependency-path: 'App/client-react/package-lock.json'
+      
+      - name: Install dependencies
+        working-directory: App/client-react
+        run: npm ci
+      
+      - name: Lint code
+        working-directory: App/client-react
+        run: npm run lint
+      
+      - name: Build
+        working-directory: App/client-react
+        run: npm run build
