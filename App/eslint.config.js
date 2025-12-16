@@ -22,4 +22,14 @@ export default [
             'no-console': 'off'
         }
     }
+
+    // Jest test files
+    , {
+        files: ['**/*.test.js', '**/*.spec.js', 'test/**/*.js', '__tests__/**/*.js'],
+        languageOptions: {
+            globals: {
+                ...globals.jest,
+            },
+        },
+    }
 ];
