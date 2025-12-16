@@ -10,7 +10,7 @@
     "debug": "nodemon --inspect ./src/index.js",
     "debug-docker": "nodemon --inspect=0.0.0.0:9229 ./src/index.js",
     "test": "jest",
-    "lint": "lint"
+    "lint": "eslint ."
   },
   "author": "",
   "license": "ISC",
