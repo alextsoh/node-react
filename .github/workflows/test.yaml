@@ -20,7 +20,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 'App/api-node/package.json'
+          node-version-file: 'App/api-node/package.json'
           cache: 'npm'
           cache-dependency-path: 'App/api-node/package-lock.json' 
       
