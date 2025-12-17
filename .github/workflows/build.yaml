@@ -6,7 +6,6 @@ on:
     branches:
       - dev
 
-
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
@@ -23,15 +22,9 @@ jobs:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build and push API image
-        uses: docker/build-push-action@v4
-        with:
-          context: ./App/api-node
-          file: ./App/api-node/Dockerfile
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/api-node:latest
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
-   
- 
-
-
+      - name: Compute image tags
+        id: meta
+        run: |
+          SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
+          echo "sha_tag=${{ vars.DOCKERHUB_USERNAME }}/api-node:$SHORT_SHA" >> $GITHUB_OUTPUT
+          echo "alias_tag=${{ vars.DOCKERHUB_USERNAME }}/api-node:dev" >> $GITHUB_OUTPUT
