@@ -26,5 +26,8 @@ jobs:
         id: meta
         run: |
           SHORT_SHA=$(echo "$GITHUB_SHA" | cut -c1-7)
+          echo "Image tags that will be used:"
+          echo "  SHA tag: ${{ vars.DOCKERHUB_USERNAME }}/api-node:$SHORT_SHA"
+          echo "  Alias tag: ${{ vars.DOCKERHUB_USERNAME }}/api-node:dev"
           echo "sha_tag=${{ vars.DOCKERHUB_USERNAME }}/api-node:$SHORT_SHA" >> $GITHUB_OUTPUT
           echo "alias_tag=${{ vars.DOCKERHUB_USERNAME }}/api-node:dev" >> $GITHUB_OUTPUT
