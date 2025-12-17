@@ -30,4 +30,5 @@ jobs:
           echo "  SHA tag: ${{ vars.DOCKERHUB_USERNAME }}/api-node:$SHORT_SHA"
           echo "  Alias tag: ${{ vars.DOCKERHUB_USERNAME }}/api-node:dev"
           echo "sha_tag=${{ vars.DOCKERHUB_USERNAME }}/api-node:$SHORT_SHA" >> $GITHUB_OUTPUT
+          echo "$sha_tag"
           echo "alias_tag=${{ vars.DOCKERHUB_USERNAME }}/api-node:dev" >> $GITHUB_OUTPUT
