@@ -19,7 +19,14 @@ jobs:
         with:
           username: ${{ vars.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
-
+      - name: Build and push API image
+        uses: docker/build-push-action@v4
+        with:
+          context: ./App/api-node
+          file: ./App/api-node/Dockerfile
+          tags: ${{ vars.DOCKERHUB_USERNAME }}/api-node:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
    
  
 

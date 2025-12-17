@@ -2,9 +2,9 @@ name: Test Workflow
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - dev
+  # push:
+  #   branches:
+  #     - dev
 
 jobs:
   # Lint and test API
