@@ -37,7 +37,11 @@ jobs:
         if: github.event_name == 'push' && github.ref_type == 'branch'
         uses: dorny/paths-filter@v3
         with:
-          filters: .github/utils/file-filters.yaml
+          filters: |
+            api-node:
+              - 'App/api-node/**'
+            client-react:
+              - 'App/client-react/**'
 
       - name: Determine build configuration
         id: set
