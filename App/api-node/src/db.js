@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const { Pool } = require('pg');
 
-databaseUrl =
+const databaseUrl =
   process.env.DATABASE_URL ||
   fs.readFileSync(process.env.DATABASE_URL_FILE, 'utf8');
 
