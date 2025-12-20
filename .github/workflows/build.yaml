@@ -1,10 +1,10 @@
 name: Build and Push Workflow
 
 on:
-  push:
-    branches: [dev, main]
-  pull_request:
-    branches: [dev, main]
+  # push:
+  #   branches: [dev, main]
+  # pull_request:
+  #   branches: [dev, main]
   workflow_dispatch:
     inputs:
       service:
