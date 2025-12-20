@@ -4,9 +4,12 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - dev
+      - main
+  pull_request:
+    branches:
+      - main
 
-      
+
 jobs:
   # Lint and test API
   api-test:
