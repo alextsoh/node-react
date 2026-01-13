@@ -1,10 +1,10 @@
-name: Build and Push Images
+name: Build and Push Workflow
 
 on:
   push:
-    branches: [dev, main]
+    branches: [main]
   pull_request:
-    branches: [dev, main]
+    branches: [main]
   workflow_dispatch:
     inputs:
       service:
@@ -30,7 +30,12 @@ env:
   REGISTRY: docker.io
 
 jobs:
+  test:
+    uses: ./.github/workflows/test.yaml
+
+    
   build:
+    needs: test
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -66,8 +71,7 @@ jobs:
             type=ref,event=branch
             type=ref,event=pr
             type=sha,prefix=sha-
-            type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
-            type=raw,value=dev,enable=${{ github.ref == 'refs/heads/dev' }}
+            type=raw,value=latest,enable={{is_default_branch}}
 
       - name: Build and push ${{ matrix.service }}
         if: |
@@ -84,5 +88,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           cache-from: type=gha,scope=${{ matrix.service }}
           cache-to: type=gha,mode=max,scope=${{ matrix.service }}
-          platforms: linux/amd64,linux/arm64
+          # platforms: linux/amd64,linux/arm64
           provenance: false
+          
