@@ -1,0 +1,38 @@
+{
+  "$schema": "https://raw.githubusercontent.com/jetify-com/devbox/main/.schema/devbox.schema.json",
+  "packages": [
+    "act@latest",
+    "envsubst@latest",
+    "gh@latest",
+    "go-task@latest",
+    "go@latest",
+    "gum@latest",
+    "jq@latest",
+    "k9s@latest",
+    "kind@latest",
+    "ko@latest",
+    "kubectl@latest",
+    "kubectx@latest",
+    "kubent@latest",
+    "kubernetes-helm@latest",
+    "kustomize@latest",
+    "nodejs_20@latest",
+    "oras@latest",
+    "poetry@latest",
+    "procps",
+    "python312@latest",
+    "yq-go@latest"
+  ],
+  "shell": {
+    "init_hook": [
+      "export GOBIN=$(git rev-parse --show-toplevel)/bin",
+      "export PATH=$GOBIN:$PATH",
+      "go install sigs.k8s.io/cloud-provider-kind@v0.2.0",
+      "echo 'Welcome to your development environment!'",
+      "echo 'Available tools: task, kind, kubectl, docker, node, psql'"
+    ],
+    "scripts": {
+      "test": "echo 'Add your test command here'"
+    }
+  }
+}

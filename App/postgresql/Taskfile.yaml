@@ -1,0 +1,33 @@
+version: "3"
+
+vars:
+  IMAGE_REPO: alextsoh/db-migrator
+  IMAGE_TAG: V1.0.0
+
+tasks:
+
+  build-push-registry:
+    desc: Build container image
+    cmds:
+      # Build: Create the image from Dockerfile and label it (Repo:Tag)
+      - docker build -t {{.IMAGE_REPO}}:{{.IMAGE_TAG}} .
+      # Push: Upload the labeled image to the registry so K8s can pull it
+      - docker push {{.IMAGE_REPO}}:{{.IMAGE_TAG}}
+
+
+
+  #for docker#
+
+  run-postgres:
+    cmds:
+      # Runs Postgres with persistent data storage and exposed port 5432
+      - docker run -e POSTGRES_PASSWORD=safepassword -v pgdata:/var/lib/postgresql/data -p 5432:5432 postgres:17.2-alpine
+
+  run-init-script:
+    desc: Manually seed the DB schema
+    cmds:
+      # Finds the DB container, copies the SQL file, and executes it immediately
+      - |
+        CONTAINER_ID=$(docker ps -q --filter "ancestor=postgres:16.3-alpine")
+        docker cp ./migrations/00001_create_request_table.sql $CONTAINER_ID:/tmp/
+        docker exec $CONTAINER_ID psql -U "postgres" -f /tmp/00001_create_request_table.sql
