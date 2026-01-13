@@ -1,10 +1,10 @@
-const fs = require('fs');
+const fs = require("fs");
 
-const { Pool } = require('pg');
+const { Pool } = require("pg");
 
 const databaseUrl =
   process.env.DATABASE_URL ||
-  fs.readFileSync(process.env.DATABASE_URL_FILE, 'utf8');
+  fs.readFileSync(process.env.DATABASE_URL_FILE, "utf8");
 
 const pool = new Pool({
   connectionString: databaseUrl,
@@ -12,17 +12,28 @@ const pool = new Pool({
 
 // the pool will emit an error on behalf of any idle clients
 // it contains if a backend error or network partition happens
-pool.on('error', (err, client) => {
-  console.error('Unexpected error on idle client', err);
+pool.on("error", (err, client) => {
+  console.error("Unexpected error on idle client", err);
   process.exit(-1);
 });
 
-// async/await - check out a client
 const getDateTime = async () => {
   const client = await pool.connect();
   try {
-    const res = await client.query('SELECT NOW() as now;');
-    return res.rows[0];
+    const result = await client.query(`
+      SELECT 
+      NOW() AS current_time, 
+      COUNT(*) AS request_count
+      FROM public.request 
+      WHERE api_name = 'node';
+    `);
+    const currentTime = result.rows[0].current_time;
+    const requestCount = result.rows[0].request_count;
+
+    return {
+      currentTime,
+      requestCount,
+    };
   } catch (err) {
     console.log(err.stack);
   } finally {
@@ -30,4 +41,18 @@ const getDateTime = async () => {
   }
 };
 
-module.exports = { getDateTime };
+const insertRequest = async () => {
+  const client = await pool.connect();
+  try {
+    const res = await client.query(
+      "INSERT INTO request (api_name) VALUES ('node');",
+    );
+    return;
+  } catch (err) {
+    console.log(err.stack);
+  } finally {
+    client.release();
+  }
+};
+
+module.exports = { getDateTime, insertRequest };

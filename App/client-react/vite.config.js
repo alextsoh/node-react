@@ -8,6 +8,10 @@ dns.setDefaultResultOrder('verbatim');
 export default defineConfig({
   plugins: [react()],
   server: {
+    host: true,
+    watch: {
+      usePolling: true,
+    },
     proxy: {
       '/api/node': {
         target: 'http://api-node:3000',

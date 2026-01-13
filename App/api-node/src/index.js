@@ -1,4 +1,4 @@
-const { getDateTime } = require('./db');
+const { getDateTime, insertRequest } = require('./db');
 
 const express = require('express');
 const morgan = require('morgan');
@@ -10,6 +10,7 @@ const port = process.env.PORT || 3000;
 app.use(morgan('tiny'));
 
 app.get('/', async (req, res) => {
+  await insertRequest();
   const dateTime = await getDateTime();
   const response = dateTime;
   response.api = 'node';
