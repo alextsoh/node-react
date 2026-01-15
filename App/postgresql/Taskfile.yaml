@@ -2,7 +2,7 @@ version: "3"
 
 vars:
   IMAGE_REPO: alextsoh/db-migrator
-  IMAGE_TAG: V1.0.0
+  IMAGE_TAG: v1.0.1
 
 tasks:
 
