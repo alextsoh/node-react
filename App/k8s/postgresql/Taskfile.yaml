@@ -1,0 +1,14 @@
+version: "3"
+
+tasks:
+  install:
+    desc: "Deploy PostgreSQL"
+    cmds:
+      - kubectl create namespace postgres --dry-run=client -o yaml | kubectl apply -f -
+      - kubectl apply -f postgres-simple.yaml
+
+  apply:
+    desc: "Run init.sql"
+    cmds:
+      - "kubectl apply -f Secret.db-password.yaml"
+      - "kubectl apply -f Job.db-migrator.yaml"

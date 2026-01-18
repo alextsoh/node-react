@@ -3,7 +3,12 @@
 project under /home dir
 
 
+# K8s DASHBOARD
+
+kubectl proxy 
+kubectl -n kubernetes-dashboard create token admin-user
 # COMPOSE
+
 
 docker compose up -d --build
 
