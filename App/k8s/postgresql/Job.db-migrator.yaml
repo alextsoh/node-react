@@ -8,7 +8,8 @@ spec:
     spec:
       containers:
         - name: migrate
-          image: alextsoh/db-migrator:v1.0.2
+          image: alextsoh/db-migrator:multiplatform
+          imagePullPolicy: Always
           args:
             - -path=/app/migrations
             - -database=$(DATABASE_URL)?sslmode=disable

@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: api-node
-          image: alextsoh/api-node:latest
+          image: alextsoh/api-node:multiplatform
           imagePullPolicy: Always
           env:
             - name: PORT
