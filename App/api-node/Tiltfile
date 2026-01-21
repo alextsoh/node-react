@@ -1,0 +1,7 @@
+docker_build(
+  'alextsoh/api-node', 
+  './',
+  dockerfile='./Dockerfile'
+)
+k8s_yaml('../k8s/api-node/Deployment.yaml')
+k8s_resource('api-node', port_forwards=['3000:3000'])

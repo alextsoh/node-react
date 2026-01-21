@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: api-node
-  namespace: demo-app
+  namespace: my-app
   labels:
     app: api-node
 spec:

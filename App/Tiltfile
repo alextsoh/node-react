@@ -1,0 +1,9 @@
+# API Node
+include('./api-node/Tiltfile')
+
+# Client React
+include('./client-react/Tiltfile')
+
+## RUN tilt up ##
+
+## Without live sync Tilt builds new image for every each change and performs a full deployment sending manifest to kubernetes api ##

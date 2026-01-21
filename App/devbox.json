@@ -21,6 +21,7 @@
     "poetry@latest",
     "procps",
     "python312@latest",
+    "tilt@latest",
     "yq-go@latest"
   ],
   "shell": {
