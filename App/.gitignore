@@ -48,9 +48,13 @@ coverage/
 .DS_Store
 Thumbs.db
 
+# Devbox
+devbox.lock
+
 # Temporary files
 *.tmp
 *.temp
 .cache/
+
 
 .bin/
