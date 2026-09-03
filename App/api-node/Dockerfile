@@ -13,6 +13,7 @@ RUN --mount=type=cache,target=/usr/src/app/.npm \
 
 USER node
 
+
 # Copy remaining source code AFTER installing dependencies. 
 COPY --chown=node:node ./src/ .
 
